@@ -13,6 +13,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		5BB2539D0A42AF1F9DD9CB4B /* libPods-pageconnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EA615949BA4C02DDB8706DF /* libPods-pageconnect.a */; };
+		80A711AC26268FA300A0BE24 /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 80A711AB26268FA300A0BE24 /* libswiftWebKit.tbd */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		2E36EE6D9D6E9795EA83D24C /* Pods-pageconnect-pageconnectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pageconnect-pageconnectTests.debug.xcconfig"; path = "Target Support Files/Pods-pageconnect-pageconnectTests/Pods-pageconnect-pageconnectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5BEC1CA030315E686B27F3DE /* libPods-pageconnect-pageconnectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pageconnect-pageconnectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71C3E2F4145AA96BD118991C /* Pods-pageconnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pageconnect.debug.xcconfig"; path = "Target Support Files/Pods-pageconnect/Pods-pageconnect.debug.xcconfig"; sourceTree = "<group>"; };
+		80A711AB26268FA300A0BE24 /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = pageconnect/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1033E0797E274692E631675 /* Pods-pageconnect-pageconnectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pageconnect-pageconnectTests.release.xcconfig"; path = "Target Support Files/Pods-pageconnect-pageconnectTests/Pods-pageconnect-pageconnectTests.release.xcconfig"; sourceTree = "<group>"; };
 		D9AE62B485F1E01D86910043 /* Pods-pageconnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pageconnect.release.xcconfig"; path = "Target Support Files/Pods-pageconnect/Pods-pageconnect.release.xcconfig"; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80A711AC26268FA300A0BE24 /* libswiftWebKit.tbd in Frameworks */,
 				5BB2539D0A42AF1F9DD9CB4B /* libPods-pageconnect.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +102,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				80A711AB26268FA300A0BE24 /* libswiftWebKit.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				1EA615949BA4C02DDB8706DF /* libPods-pageconnect.a */,
 				5BEC1CA030315E686B27F3DE /* libPods-pageconnect-pageconnectTests.a */,
@@ -145,7 +149,6 @@
 				2E36EE6D9D6E9795EA83D24C /* Pods-pageconnect-pageconnectTests.debug.xcconfig */,
 				B1033E0797E274692E631675 /* Pods-pageconnect-pageconnectTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -491,6 +494,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -515,6 +522,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
