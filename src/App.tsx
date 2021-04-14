@@ -12,7 +12,7 @@ import {SafeAreaView, StyleSheet, Text} from 'react-native';
 const App: React.FC = (): React.ReactElement => {
   return (
     <SafeAreaView>
-      <Text>Demo</Text>
+      <Text>Demoss</Text>
     </SafeAreaView>
   );
 };
