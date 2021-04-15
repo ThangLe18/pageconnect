@@ -6,22 +6,58 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
-import {LoginButton, AccessToken} from 'react-native-fbsdk';
+import React, {useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {observer, inject} from 'mobx-react';
+import {GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
 
-const LoginScreen: React.FC = () => {
+const ListPageScreen: React.FC = props => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getPages();
+  }, []);
+
+  getPages = () => {
+    props.pageStore.fetchListPage();
+  };
 
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Button
-        title={'Go to list post'}
-        onPress={() => {
-          navigation.navigate('ListPostScreen');
-        }}
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={props?.pageStore?.loading}
+            onRefresh={() => getPages()}
+          />
+        }
+        data={props?.pageStore?.listPage}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={{
+              width: 300,
+              height: 100,
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              marginTop: 25,
+            }}
+            onPress={() => {
+              props.postStore.setSelectedPageId(item?.id);
+              navigation.navigate('ListPostScreen');
+            }}>
+            <Text>{item?.name}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );
@@ -29,4 +65,4 @@ const LoginScreen: React.FC = () => {
 
 const styles = StyleSheet.create({});
 
-export default LoginScreen;
+export default inject('pageStore', 'postStore')(observer(ListPageScreen));

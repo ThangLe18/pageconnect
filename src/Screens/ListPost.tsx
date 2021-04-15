@@ -6,13 +6,31 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {LoginButton, AccessToken} from 'react-native-fbsdk';
 import {useNavigation} from '@react-navigation/native';
+import {observer, inject} from 'mobx-react';
 
-const LoginScreen: React.FC = () => {
+const ListPostScreen: React.FC = props => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  getPosts = () => {
+    props.postStore.fetchListPost();
+  };
 
   return (
     <SafeAreaView
@@ -23,10 +41,35 @@ const LoginScreen: React.FC = () => {
           navigation.navigate('ListCommentScreen');
         }}
       />
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={props?.postStore?.loading}
+            onRefresh={() => getPosts()}
+          />
+        }
+        data={props?.postStore?.listPost}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={{
+              width: 300,
+              height: 100,
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              marginTop: 25,
+            }}
+            onPress={() => {
+              navigation.navigate('ListCommentScreen');
+            }}>
+            <Text>{item?.message}</Text>
+            <Text>{item?.story}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={item => item.id}
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default LoginScreen;
+export default inject('postStore')(observer(ListPostScreen));

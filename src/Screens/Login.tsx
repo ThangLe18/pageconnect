@@ -7,7 +7,14 @@
  */
 
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  AsyncStorage,
+} from 'react-native';
 import {
   LoginButton,
   AccessToken,
@@ -15,17 +22,10 @@ import {
   GraphRequestManager,
 } from 'react-native-fbsdk';
 import {useNavigation} from '@react-navigation/native';
-import {
-  observer,
-  inject,
-  Provider,
-  MobXProviderContext,
-  PropTypes,
-} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 
 const LoginScreen: React.FC = props => {
   const navigation = useNavigation();
-  const [accessToken, setAccessToken] = useState('');
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -41,27 +41,29 @@ const LoginScreen: React.FC = props => {
           'pages_manage_ads',
           'pages_messaging',
         ]}
-        onLoginFinished={(error: any, result: any) => {
+        onLoginFinished={async (error: any, result: any) => {
           if (error) {
-            console.log('-> error: ', error);
+            console.log('-> Error Login: ', error);
           } else if (result.isCancelled) {
-            console.log('-> result isCancelled ');
+            console.log('-> Cancelled Login ');
           } else {
-            AccessToken.getCurrentAccessToken().then((data: any) => {
-              console.log(data.accessToken.toString());
-              setAccessToken(data.accessToken.toString());
-            });
+            const data = await AccessToken.getCurrentAccessToken();
+            console.log('-> access_token', data.accessToken.toString());
+            await AsyncStorage.setItem(
+              'ACCESS_TOKEN',
+              data.accessToken.toString(),
+            );
+            navigation.navigate('ListPageScreen');
           }
         }}
       />
-      <Text>{accessToken}</Text>
       <Button
-        title={'Go to list page screen'}
+        title={'go to list page'}
         onPress={() => {
           navigation.navigate('ListPageScreen');
         }}
       />
-      <Button
+      {/* <Button
         title={'get list page'}
         onPress={() => {
           const responseInfoCallback = (error: any, result: any) => {
@@ -127,18 +129,11 @@ const LoginScreen: React.FC = props => {
 
           new GraphRequestManager().addRequest(infoRequest).start();
         }}
-      />
-      <Text>{props.pageStore.age}</Text>
-      <Button
-        title={'increase age'}
-        onPress={() => {
-          props.pageStore.increaseAge();
-        }}
-      />
+      /> */}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default inject('pageStore')(observer(LoginScreen));
+export default inject('userStore')(observer(LoginScreen));

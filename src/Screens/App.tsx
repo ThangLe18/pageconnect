@@ -16,12 +16,19 @@ import ListPostScreen from './ListPost';
 import ListCommentScreen from './ListComment';
 import {Provider} from 'mobx-react';
 import pageStore from '../Stores/PageStore';
+import postStore from '../Stores/PostStore';
+import commentStore from '../Stores/CommentStore';
+import userStore from '../Stores/UserStore';
 
 const Stack = createStackNavigator();
 
 const App: React.FC = (): React.ReactElement => {
   return (
-    <Provider pageStore={pageStore}>
+    <Provider
+      userStore={userStore}
+      pageStore={pageStore}
+      postStore={postStore}
+      commentStore={commentStore}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
