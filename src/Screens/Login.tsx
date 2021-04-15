@@ -15,8 +15,15 @@ import {
   GraphRequestManager,
 } from 'react-native-fbsdk';
 import {useNavigation} from '@react-navigation/native';
+import {
+  observer,
+  inject,
+  Provider,
+  MobXProviderContext,
+  PropTypes,
+} from 'mobx-react';
 
-const LoginScreen: React.FC = () => {
+const LoginScreen: React.FC = props => {
   const navigation = useNavigation();
   const [accessToken, setAccessToken] = useState('');
   return (
@@ -32,6 +39,7 @@ const LoginScreen: React.FC = () => {
           'pages_read_engagement',
           'pages_manage_metadata',
           'pages_manage_ads',
+          'pages_messaging',
         ]}
         onLoginFinished={(error: any, result: any) => {
           if (error) {
@@ -120,10 +128,17 @@ const LoginScreen: React.FC = () => {
           new GraphRequestManager().addRequest(infoRequest).start();
         }}
       />
+      <Text>{props.pageStore.age}</Text>
+      <Button
+        title={'increase age'}
+        onPress={() => {
+          props.pageStore.increaseAge();
+        }}
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default LoginScreen;
+export default inject('pageStore')(observer(LoginScreen));

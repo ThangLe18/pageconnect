@@ -14,19 +14,26 @@ import LoginScreen from './Login';
 import ListPageScreen from './ListPage';
 import ListPostScreen from './ListPost';
 import ListCommentScreen from './ListComment';
+import {Provider} from 'mobx-react';
+import pageStore from '../Stores/PageStore';
 
 const Stack = createStackNavigator();
 
 const App: React.FC = (): React.ReactElement => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="ListPageScreen" component={ListPageScreen} />
-        <Stack.Screen name="ListPostScreen" component={ListPostScreen} />
-        <Stack.Screen name="ListCommentScreen" component={ListCommentScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider pageStore={pageStore}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="ListPageScreen" component={ListPageScreen} />
+          <Stack.Screen name="ListPostScreen" component={ListPostScreen} />
+          <Stack.Screen
+            name="ListCommentScreen"
+            component={ListCommentScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
