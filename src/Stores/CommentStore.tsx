@@ -36,6 +36,7 @@ class PageStore {
   };
 
   fetchListComment = async () => {
+    this.listComment = [];
     this.loading = true;
     const accessToken = await AsyncStorage.getItem('ACCESS_TOKEN');
     const responseInfoCallback = (error: any, result: any) => {

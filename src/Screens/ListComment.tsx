@@ -35,12 +35,6 @@ const ListPostScreen: React.FC = props => {
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Button
-        title={'Go to list comment'}
-        onPress={() => {
-          navigation.navigate('ListCommentScreen');
-        }}
-      />
       <FlatList
         refreshControl={
           <RefreshControl

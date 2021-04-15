@@ -31,6 +31,7 @@ class PageStore {
   };
 
   fetchListPage = async () => {
+    this.listPage = [];
     this.loading = true;
     const accessToken = await AsyncStorage.getItem('ACCESS_TOKEN');
     const responseInfoCallback = (error: any, result: any) => {
