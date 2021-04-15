@@ -58,14 +58,15 @@
 			<dict>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>fb133150745380859</string>
+					<string>fb461446028294721</string>
 				</array>
 			</dict>
 		</array>
 		<key>FacebookAppID</key>
-		<string>133150745380859</string>
+		<string>461446028294721</string>
 		<key>FacebookDisplayName</key>
-		<string>fhn.mas.pageconnect</string>
+		<string>PageAutoSend</string>
+
 
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
