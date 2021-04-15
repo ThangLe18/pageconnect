@@ -58,6 +58,7 @@ const ListPostScreen: React.FC = props => {
               marginTop: 25,
             }}
             onPress={() => {
+              props.commentStore.setSelectedPostId(item?.id);
               navigation.navigate('ListCommentScreen');
             }}>
             <Text>{item?.message}</Text>
@@ -72,4 +73,4 @@ const ListPostScreen: React.FC = props => {
 
 const styles = StyleSheet.create({});
 
-export default inject('postStore')(observer(ListPostScreen));
+export default inject('postStore', 'commentStore')(observer(ListPostScreen));
