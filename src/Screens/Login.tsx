@@ -45,7 +45,7 @@ const LoginScreen: React.FC = () => {
         }}
       />
       <Button
-        title={'get profile'}
+        title={'get list page'}
         onPress={() => {
           const responseInfoCallback = (error: any, result: any) => {
             if (error) {
@@ -55,14 +55,9 @@ const LoginScreen: React.FC = () => {
             }
           };
           const infoRequest = new GraphRequest(
-            '/me',
+            '/me/accounts',
             {
               accessToken: accessToken,
-              parameters: {
-                fields: {
-                  string: 'email,name,first_name,middle_name,last_name',
-                },
-              },
             },
             responseInfoCallback,
           );
