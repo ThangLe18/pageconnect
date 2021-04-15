@@ -15,6 +15,7 @@ const App: React.FC = (): React.ReactElement => {
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <LoginButton
+        permissions={['public_profile', 'pages_show_list']}
         onLoginFinished={(error, result) => {
           if (error) {
             console.log('-> error: ', error);
