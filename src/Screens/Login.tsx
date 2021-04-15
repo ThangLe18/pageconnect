@@ -65,6 +65,29 @@ const LoginScreen: React.FC = () => {
           new GraphRequestManager().addRequest(infoRequest).start();
         }}
       />
+
+      <Button
+        title={'get list post of page'}
+        onPress={() => {
+          const pageId = '104140388472599';
+          const responseInfoCallback = (error: any, result: any) => {
+            if (error) {
+              console.log('Error fetching data: ', error);
+            } else {
+              console.log('Success fetching data: ', result);
+            }
+          };
+          const infoRequest = new GraphRequest(
+            `/${pageId}/feed`,
+            {
+              accessToken: accessToken,
+            },
+            responseInfoCallback,
+          );
+
+          new GraphRequestManager().addRequest(infoRequest).start();
+        }}
+      />
     </SafeAreaView>
   );
 };
