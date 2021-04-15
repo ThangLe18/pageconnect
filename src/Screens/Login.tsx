@@ -6,14 +6,19 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
-import {LoginButton, AccessToken} from 'react-native-fbsdk';
+import {
+  LoginButton,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
 import {useNavigation} from '@react-navigation/native';
-
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
+  const [accessToken, setAccessToken] = useState('');
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -27,14 +32,42 @@ const LoginScreen: React.FC = () => {
           } else {
             AccessToken.getCurrentAccessToken().then((data: any) => {
               console.log(data.accessToken.toString());
+              setAccessToken(data.accessToken.toString());
             });
           }
         }}
       />
+      <Text>{accessToken}</Text>
       <Button
         title={'Go to list page screen'}
         onPress={() => {
           navigation.navigate('ListPageScreen');
+        }}
+      />
+      <Button
+        title={'get profile'}
+        onPress={() => {
+          const responseInfoCallback = (error: any, result: any) => {
+            if (error) {
+              console.log('Error fetching data: ', error);
+            } else {
+              console.log('Success fetching data: ', result);
+            }
+          };
+          const infoRequest = new GraphRequest(
+            '/me',
+            {
+              accessToken: accessToken,
+              parameters: {
+                fields: {
+                  string: 'email,name,first_name,middle_name,last_name',
+                },
+              },
+            },
+            responseInfoCallback,
+          );
+
+          new GraphRequestManager().addRequest(infoRequest).start();
         }}
       />
     </SafeAreaView>
