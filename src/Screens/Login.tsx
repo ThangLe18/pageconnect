@@ -18,7 +18,7 @@ const LoginScreen: React.FC = () => {
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <LoginButton
-        permissions={['public_profile', 'pages_show_list']}
+        permissions={['public_profile', 'pages_show_list', 'pages_messaging', 'pages_read_engagement']}
         onLoginFinished={(error: any, result: any) => {
           if (error) {
             console.log('-> error: ', error);
