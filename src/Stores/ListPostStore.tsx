@@ -1,8 +1,6 @@
 import {observable, action, makeAutoObservable} from 'mobx';
 import axios from 'axios';
-
-const TOKEN =
-  'EAAGjrsaZAekEBAH3HeunYHqmvqgIZBpHtOH2tkc4qgb1CYtkGkFGVeu2uAVaWb9W4rPZCRfiui5zQxZALrq5O0tiftdxjSsjAXEb4StYbYse3JWEo0gqZCoEmzs5shp1IGEQxWAZBGqSdFWnnPN3dErccZBaEoCRsSfY3VKa52W7RAzxbJAlUi8MxFAgk0ge7kZD';
+import {AsyncStorage} from 'react-native';
 
 class ListPostStore {
   listPost: any[] = [];
@@ -35,26 +33,20 @@ class ListPostStore {
 
   getPost = async (idPage: string, accessTokenPage: string) => {
     try {
-      console.log(1, this.loading, this.listPost);
-      
-      this.setLoading(true);
+      const localAccessToken = await AsyncStorage.getItem('ACCESS_TOKEN');
       console.log(this.loading, this.listPost);
       let res = await axios.get(
         `https://graph.facebook.com/v10.0/${idPage}/published_posts?fields=message,created_time,id&access_token=${accessTokenPage}`,
         {
           headers: {
-            Authorization: `Bearer ${TOKEN}`,
+            Authorization: `Bearer ${localAccessToken}`,
           },
         },
       );
 
-      console.log(2, this.loading, this.listPost);
-      this.clearPost();
-      console.log(3, this.loading, this.listPost);
-      this.pushPost(res.data.data);
-      console.log(4, this.loading, this.listPost);
+      // this.clearPost();
+      this.listPost = res.data.data;
       this.setLoading(false);
-      console.log(5, this.loading, this.listPost);
     } catch (e) {
       console.log(e);
 
