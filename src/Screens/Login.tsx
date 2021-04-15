@@ -23,7 +23,16 @@ const LoginScreen: React.FC = () => {
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <LoginButton
-        permissions={['public_profile', 'pages_show_list']}
+        permissions={[
+          'public_profile',
+          'email',
+          'pages_show_list',
+          'read_insights',
+          'pages_read_user_content',
+          'pages_read_engagement',
+          'pages_manage_metadata',
+          'pages_manage_ads',
+        ]}
         onLoginFinished={(error: any, result: any) => {
           if (error) {
             console.log('-> error: ', error);
@@ -79,6 +88,29 @@ const LoginScreen: React.FC = () => {
           };
           const infoRequest = new GraphRequest(
             `/${pageId}/feed`,
+            {
+              accessToken: accessToken,
+            },
+            responseInfoCallback,
+          );
+
+          new GraphRequestManager().addRequest(infoRequest).start();
+        }}
+      />
+
+      <Button
+        title={'get list comment of post'}
+        onPress={() => {
+          const postId = '104140388472599_104141558472482';
+          const responseInfoCallback = (error: any, result: any) => {
+            if (error) {
+              console.log('Error fetching data: ', error);
+            } else {
+              console.log('Success fetching data: ', result);
+            }
+          };
+          const infoRequest = new GraphRequest(
+            `/${postId}/comments`,
             {
               accessToken: accessToken,
             },
