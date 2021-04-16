@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {observer, inject} from 'mobx-react';
 
 interface ItemPageProps {
   id: string;
@@ -15,17 +16,21 @@ interface ItemPageProps {
   accessToken: string;
 }
 
-function ItemPage(props: ItemPageProps) {
+interface StoreProps {
+  listPostStore?: {
+    setValuePage: any;
+  };
+}
+
+type Props = ItemPageProps & StoreProps;
+
+function ItemPage(props: Props) {
   const navigation = useNavigation();
-  const {id, name, avatar, accessToken} = props;
+  const {id, name, avatar, accessToken, listPostStore} = props;
 
   const handlePressItem = () => {
-    navigation.navigate('ListPostScreen', {
-      accessTokenPage: accessToken,
-      idPage: id,
-      name,
-      avatar,
-    });
+    listPostStore?.setValuePage(id, accessToken, name, avatar);
+    navigation.navigate('ListPostScreen');
   };
 
   return (
@@ -58,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemPage;
+export default inject('listPostStore')(observer(ItemPage));

@@ -9,8 +9,11 @@ import {useNavigation} from '@react-navigation/native';
 import {observer, inject} from 'mobx-react';
 
 import ItemPage from './ItemPage';
+import {useListPageStore} from '../../Stores/RootStore';
 
-interface ListPageProps {
+interface ListPageProps {}
+
+interface StoreProps {
   listPageStore: {
     listPage: any[];
     loading: boolean;
@@ -19,9 +22,14 @@ interface ListPageProps {
   };
 }
 
-function ListPage(props: ListPageProps) {
+type Props = ListPageProps & StoreProps;
+
+function ListPage(props: Props) {
   const navigation = useNavigation();
   const {listPage, loading, getPage} = props.listPageStore;
+
+  // const listPageStore = useListPageStore();
+  // console.log(listPageStore);
 
   useEffect(() => {
     getPage();

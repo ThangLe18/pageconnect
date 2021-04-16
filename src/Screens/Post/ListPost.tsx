@@ -5,33 +5,38 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {observer, inject} from 'mobx-react';
 
-import ItemPage from './ItemPost';
+import ItemPost from './ItemPost';
 
-interface ListPostProps {
+interface ListPostProps {}
+
+interface StoreProps {
   listPostStore: {
     listPost: any[];
     loading: boolean;
     error: any;
     getPost: any;
-  };
-  route: {
-    params: {
-      idPage: string;
-      accessTokenPage: string;
-      name: string;
-      avatar: string;
-    };
+    idPage: string;
+    accessTokenPage: string;
+    name: string;
+    avatar: string;
   };
 }
 
-function ListPage(props: ListPostProps) {
-  const navigation = useNavigation();
+type Props = ListPostProps & StoreProps;
 
-  const {loading, error, listPost, getPost} = props.listPostStore;
-  const {accessTokenPage, idPage, name, avatar} = props.route.params;
+function ListPage(props: Props) {
+  const {
+    loading,
+    error,
+    listPost,
+    getPost,
+    accessTokenPage,
+    idPage,
+    name,
+    avatar,
+  } = props.listPostStore;
 
   useEffect(() => {
     getPost(idPage, accessTokenPage);
@@ -46,12 +51,10 @@ function ListPage(props: ListPostProps) {
         data={listPost}
         key={'id'}
         renderItem={({item}) => (
-          <ItemPage
+          <ItemPost
             id={item.id}
             createdTime={item.created_time}
             message={item.message}
-            name={name}
-            avatar={avatar}
           />
         )}
       />

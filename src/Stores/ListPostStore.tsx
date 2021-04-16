@@ -8,18 +8,39 @@ class ListPostStore {
   listPost: any[] = [];
   loading: boolean = false;
   error: any = null;
+  idPage: string = '';
+  accessTokenPage: string = '';
+  name: string = '';
+  avatar: string = '';
 
   constructor() {
     makeAutoObservable(this, {
       listPost: observable,
       loading: observable,
       error: observable,
+      idPage: observable,
+      accessTokenPage: observable,
+      name: observable,
+      avatar: observable,
       getPost: action.bound,
       clearPost: action.bound,
       setLoading: action.bound,
       pushPost: action.bound,
+      setValuePage: action.bound,
     });
   }
+
+  setValuePage = (
+    idPage: string,
+    accessTokenPage: string,
+    name: string,
+    avatar: string,
+  ) => {
+    this.idPage = idPage;
+    this.accessTokenPage = accessTokenPage;
+    this.name = name;
+    this.avatar = avatar;
+  };
 
   clearPost = () => {
     this.listPost = [];
@@ -35,10 +56,7 @@ class ListPostStore {
 
   getPost = async (idPage: string, accessTokenPage: string) => {
     try {
-      console.log(1, this.loading, this.listPost);
-      
       this.setLoading(true);
-      console.log(this.loading, this.listPost);
       let res = await axios.get(
         `https://graph.facebook.com/v10.0/${idPage}/published_posts?fields=message,created_time,id&access_token=${accessTokenPage}`,
         {
@@ -48,13 +66,9 @@ class ListPostStore {
         },
       );
 
-      console.log(2, this.loading, this.listPost);
       this.clearPost();
-      console.log(3, this.loading, this.listPost);
       this.pushPost(res.data.data);
-      console.log(4, this.loading, this.listPost);
       this.setLoading(false);
-      console.log(5, this.loading, this.listPost);
     } catch (e) {
       console.log(e);
 

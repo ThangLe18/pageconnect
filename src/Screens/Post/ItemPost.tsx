@@ -7,20 +7,32 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {observer, inject} from 'mobx-react';
 
 interface ItemPostProps {
   id: string;
   createdTime: string;
   message: string;
-  name: string;
-  avatar: string;
 }
 
-function ItemPage(props: ItemPostProps) {
+interface StoreProps {
+  listPostStore?: {
+    name: string;
+    avatar: string;
+  };
+  listCommentStore?: {
+    setDataPost: any;
+  };
+}
+
+type Props = ItemPostProps & StoreProps;
+
+function ItemPost(props: Props) {
   const navigation = useNavigation();
-  const {id, createdTime, message, name, avatar} = props;
+  const {id, createdTime, message, listPostStore, listCommentStore} = props;
 
   const handlePressItem = () => {
+    listCommentStore?.setDataPost(id, createdTime, message);
     navigation.navigate('ListCommentScreen');
   };
 
@@ -28,9 +40,9 @@ function ItemPage(props: ItemPostProps) {
     <TouchableNativeFeedback onPress={handlePressItem}>
       <View style={styles.bgItem}>
         <View style={styles.headerPost}>
-          <Image source={{uri: avatar}} style={styles.avatar} />
+          <Image source={{uri: listPostStore?.avatar}} style={styles.avatar} />
           <View>
-            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.name}>{listPostStore?.name}</Text>
             <Text style={styles.createdTime}>{createdTime.slice(0, 10)}</Text>
           </View>
         </View>
@@ -67,7 +79,7 @@ const styles = StyleSheet.create({
   message: {
     margin: 15,
     marginTop: 0,
-  }
+  },
 });
 
-export default ItemPage;
+export default inject('listPostStore', 'listCommentStore')(observer(ItemPost));
