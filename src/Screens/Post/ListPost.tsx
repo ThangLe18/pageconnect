@@ -8,35 +8,14 @@ import {
 import {observer, inject} from 'mobx-react';
 
 import ItemPost from './ItemPost';
+import {useListPostStore} from '../../Stores/RootStore';
 
 interface ListPostProps {}
 
-interface StoreProps {
-  listPostStore: {
-    listPost: any[];
-    loading: boolean;
-    error: any;
-    getPost: any;
-    idPage: string;
-    accessTokenPage: string;
-    name: string;
-    avatar: string;
-  };
-}
+function ListPage(props: ListPostProps) {
+  const listPostStore = useListPostStore();
 
-type Props = ListPostProps & StoreProps;
-
-function ListPage(props: Props) {
-  const {
-    loading,
-    error,
-    listPost,
-    getPost,
-    accessTokenPage,
-    idPage,
-    name,
-    avatar,
-  } = props.listPostStore;
+  const {loading, listPost, getPost, accessTokenPage, idPage} = listPostStore;
 
   useEffect(() => {
     getPost(idPage, accessTokenPage);

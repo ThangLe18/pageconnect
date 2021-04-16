@@ -14,35 +14,17 @@ import {
 import {observer, inject} from 'mobx-react';
 
 import ItemComment from './ItemComment';
+import {useListPostStore} from '../../Stores/RootStore';
+import {useListCommentStore} from '../../Stores/RootStore';
 
 interface ListCommentProps {}
 
-interface StoreProps {
-  listCommentStore: {
-    listComment: any[];
-    loading: boolean;
-    error: any;
-    getComment: any;
-    sendMessage: any;
-    idPost: string;
-    createdTimePost: string;
-    messagePost: string;
-  };
-  listPostStore: {
-    name: string;
-    avatar: string;
-    accessTokenPage: string;
-    idPage: string;
-  };
-}
+function ListComment(props: ListCommentProps) {
+  const listPostStore = useListPostStore();
+  const listCommentStore = useListCommentStore();
 
-type Props = ListCommentProps & StoreProps;
-
-function ListComment(props: Props) {
-  const {listCommentStore, listPostStore} = props;
   const {
     loading,
-    error,
     listComment,
     getComment,
     sendMessage,
@@ -68,7 +50,7 @@ function ListComment(props: Props) {
       idPage,
       accessTokenPage,
       textSend,
-      listComment.map(c => c.id),
+      listComment.map((comment: any) => comment.id),
     );
   };
 

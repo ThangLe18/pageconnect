@@ -5,7 +5,6 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {observer, inject} from 'mobx-react';
 
 import ItemPage from './ItemPage';
@@ -13,23 +12,9 @@ import {useListPageStore} from '../../Stores/RootStore';
 
 interface ListPageProps {}
 
-interface StoreProps {
-  listPageStore: {
-    listPage: any[];
-    loading: boolean;
-    error: any;
-    getPage: any;
-  };
-}
-
-type Props = ListPageProps & StoreProps;
-
-function ListPage(props: Props) {
-  const navigation = useNavigation();
-  const {listPage, loading, getPage} = props.listPageStore;
-
-  // const listPageStore = useListPageStore();
-  // console.log(listPageStore);
+function ListPage(props: ListPageProps) {
+  const listPageStore = useListPageStore();
+  const {listPage, loading, getPage} = listPageStore;
 
   useEffect(() => {
     getPage();

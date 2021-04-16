@@ -1,6 +1,5 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 interface ItemCommentProps {
   id: string;
@@ -16,12 +15,7 @@ interface ItemCommentProps {
   };
 }
 
-interface StoreProps {}
-
-type Props = ItemCommentProps & StoreProps;
-
-function ItemComment(props: Props) {
-  const navigation = useNavigation();
+function ItemComment(props: ItemCommentProps) {
   const {id, message, from} = props;
 
   return (
