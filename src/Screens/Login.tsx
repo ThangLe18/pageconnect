@@ -7,7 +7,13 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  AsyncStorage,
+  Button,
+} from 'react-native';
 import {LoginButton, AccessToken} from 'react-native-fbsdk';
 import {useNavigation} from '@react-navigation/native';
 
@@ -31,8 +37,13 @@ const LoginScreen: React.FC = () => {
           } else if (result.isCancelled) {
             console.log('-> result isCancelled ');
           } else {
-            AccessToken.getCurrentAccessToken().then((data: any) => {
+            AccessToken.getCurrentAccessToken().then(async (data: any) => {
               console.log(data.accessToken.toString());
+              await AsyncStorage.setItem(
+                'ACCESS_TOKEN',
+                data.accessToken.toString(),
+              );
+              navigation.navigate('ListPageScreen');
             });
           }
         }}

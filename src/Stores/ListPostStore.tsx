@@ -1,8 +1,6 @@
 import {observable, action, makeAutoObservable} from 'mobx';
 import axios from 'axios';
-
-const TOKEN =
-  'EAAGjrsaZAekEBAH3HeunYHqmvqgIZBpHtOH2tkc4qgb1CYtkGkFGVeu2uAVaWb9W4rPZCRfiui5zQxZALrq5O0tiftdxjSsjAXEb4StYbYse3JWEo0gqZCoEmzs5shp1IGEQxWAZBGqSdFWnnPN3dErccZBaEoCRsSfY3VKa52W7RAzxbJAlUi8MxFAgk0ge7kZD';
+import {AsyncStorage} from 'react-native';
 
 class ListPostStore {
   listPost: any[] = [];
@@ -56,6 +54,7 @@ class ListPostStore {
 
   getPost = async (idPage: string, accessTokenPage: string) => {
     try {
+      const TOKEN = await AsyncStorage.getItem('ACCESS_TOKEN');
       this.setLoading(true);
       let res = await axios.get(
         `https://graph.facebook.com/v10.0/${idPage}/published_posts?fields=message,created_time,id&access_token=${accessTokenPage}`,
